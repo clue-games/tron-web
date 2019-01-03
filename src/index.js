@@ -400,7 +400,7 @@ export default class TronWeb extends EventEmitter {
     }
 
     static async createAccount(callback = false) {
-        const account = utils.accounts.generateAccount();
+        const account = await utils.accounts.generateAccount();
 
         if(callback)
             callback(null, account);

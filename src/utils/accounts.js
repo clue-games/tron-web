@@ -1,4 +1,4 @@
-import { Entropy, charset64 } from 'entropy-string';
+import crypto from 'isomorphic-webcrypto';
 import { byteArray2hexStr } from './bytes';
 import { 
     getBase58CheckAddress,
@@ -7,10 +7,10 @@ import {
     getPubKeyFromPriKey
 } from './crypto';
 
-const entropy = new Entropy({ charset: charset64 });
-const string = entropy.token();
 
-export function generateAccount() {
+export async function generateAccount() {
+    const string = await crypto.getRandomValues(256);
+
     const priKeyBytes = genPriKeyWithEntropy(string);
     const pubKeyBytes = getPubKeyFromPriKey(priKeyBytes);
     const addressBytes = getAddressFromPriKey(priKeyBytes);
