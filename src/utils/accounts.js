@@ -1,4 +1,4 @@
-import crypto from 'isomorphic-webcrypto';
+import { subtle } from 'isomorphic-webcrypto';
 import { byteArray2hexStr } from './bytes';
 import { 
     getBase58CheckAddress,
@@ -9,7 +9,7 @@ import {
 
 
 export async function generateAccount() {
-    const string = await crypto.getRandomValues(256);
+    const string = await subtle.generateKey();
 
     const priKeyBytes = genPriKeyWithEntropy(string);
     const pubKeyBytes = getPubKeyFromPriKey(priKeyBytes);
