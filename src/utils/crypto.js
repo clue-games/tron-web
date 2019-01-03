@@ -82,6 +82,20 @@ export function getRowBytesFromTransactionBase64(base64Data) {
     return raw.serializeBinary();
 }
 
+export function genPriKeyWithEntropy(entropy) {
+    const ec = new EC('secp256k1');
+    const key = ec.genKeyPair({ entropy });
+    const priKey = key.getPrivate();
+
+    let priKeyHex = priKey.toString('hex');
+
+    while (priKeyHex.length < 64) {
+        priKeyHex = `0${priKeyHex}`;
+    }
+
+    return hexStr2byteArray(priKeyHex);
+}
+
 export function genPriKey() {
     const ec = new EC('secp256k1');
     const key = ec.genKeyPair();

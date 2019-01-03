@@ -1,13 +1,17 @@
+import { Entropy, charset64 } from 'entropy-string';
 import { byteArray2hexStr } from './bytes';
 import { 
     getBase58CheckAddress,
-    genPriKey,
+    genPriKeyWithEntropy,
     getAddressFromPriKey,
     getPubKeyFromPriKey
 } from './crypto';
 
+const entropy = new Entropy({ charset: charset64 });
+const string = entropy.token();
+
 export function generateAccount() {
-    const priKeyBytes = genPriKey();
+    const priKeyBytes = genPriKeyWithEntropy(string);
     const pubKeyBytes = getPubKeyFromPriKey(priKeyBytes);
     const addressBytes = getAddressFromPriKey(priKeyBytes);
     
